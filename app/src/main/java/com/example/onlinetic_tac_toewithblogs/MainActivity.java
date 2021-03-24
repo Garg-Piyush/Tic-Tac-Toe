@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,16 +16,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
 
-        findViewById(R.id.textViewSignUp).setOnClickListener(MainActivity.this);
-        findViewById(R.id.buttonLogin).setOnClickListener(MainActivity.this);
-    }
+        findViewById(R.id.textViewSignUp).setOnClickListener(v -> {
+            startActivity(new Intent(this,Sign_Up_Activity.class));
+        });
+        findViewById(R.id.buttonLogin).setOnClickListener(v -> {
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.textViewSignUp:
-                startActivity(new Intent(this,Sign_Up_Activity.class));
-                break;
-        }
+        });
     }
 }

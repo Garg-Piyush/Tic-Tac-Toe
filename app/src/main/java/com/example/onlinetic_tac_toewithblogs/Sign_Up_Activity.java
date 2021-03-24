@@ -20,27 +20,31 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
-public class Sign_Up_Activity extends AppCompatActivity implements View.OnClickListener {
+public class Sign_Up_Activity extends AppCompatActivity {
 
     EditText editTextEmail , editTextPassword ;
 
     private FirebaseAuth mAuth;
-
-    ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign__up);
 
-        findViewById(R.id.textViewLogin).setOnClickListener(this);
-        findViewById(R.id.buttonSignUp).setOnClickListener(this);
+        findViewById(R.id.textViewLogin).setOnClickListener(v -> {
+            startActivity(new Intent(this,MainActivity.class));
+        });
+        findViewById(R.id.buttonSignUp).setOnClickListener(v -> {
+            registerUser();
+        });
 
         editTextEmail = (EditText) findViewById(R.id.signUpEmail);
         editTextPassword = (EditText) findViewById(R.id.signUpPassword);
 
         mAuth = FirebaseAuth.getInstance();
     }
+
+    ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
     private void registerUser(){
         String email = editTextEmail.getText().toString().trim();
@@ -83,21 +87,5 @@ public class Sign_Up_Activity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-    }
-
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.buttonSignUp :
-                registerUser();
-                break;
-
-            case R.id.textViewLogin :
-                startActivity(new Intent(this, MainActivity.class));
-                break;
-        }
     }
 }
