@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BlogsActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/buttons">
+        <TextView
+            android:id="@+id/request_textview"
+            android:text="Requests"
+            android:textColor="@color/white"
+            style="@style/HomeScreenTexts"
+            android:background="@color/orange"/>
+
+        <TextView
+            android:id="@+id/players_textview"
+            android:text="Players"
+            android:textColor="@color/white"
+            style="@style/HomeScreenTexts"
+            android:background="@color/orange"/>
+
+        <TextView
+            android:id="@+id/blogs_textview"
+            android:text="Blogs"
+            android:textColor="@color/orange"
+            style="@style/HomeScreenTexts"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttons"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/blogEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:hint="Type Something" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="send" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -50,4 +50,13 @@
         <item name="android:textColor">@color/dark_orange</item>
     </style>
 
+    <style name="HomeScreenTexts">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
 </resources>

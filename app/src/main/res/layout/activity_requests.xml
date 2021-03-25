@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RequestsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/request_textview"
+            android:text="Requests"
+            android:textColor="@color/orange"
+            style="@style/HomeScreenTexts"/>
+
+        <TextView
+            android:id="@+id/players_textview"
+            android:text="Players"
+            android:textColor="@color/white"
+            style="@style/HomeScreenTexts"
+            android:background="@color/orange"/>
+
+        <TextView
+            android:id="@+id/blogs_textview"
+            android:text="Blogs"
+            android:textColor="@color/white"
+            style="@style/HomeScreenTexts"
+            android:background="@color/orange"/>
+    </LinearLayout>
+
+</RelativeLayout>
