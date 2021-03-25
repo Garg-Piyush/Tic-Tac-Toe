@@ -17,12 +17,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 import org.w3c.dom.Text;
 
-public class Sign_Up_Activity extends AppCompatActivity {
+public class Sign_Up_Activity extends AppCompatActivity implements View.OnClickListener {
 
     EditText editTextEmail , editTextPassword ;
+    ProgressBar progressBar;
+    TextView instructions;
 
     private FirebaseAuth mAuth;
 
@@ -31,20 +34,19 @@ public class Sign_Up_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign__up);
 
-        findViewById(R.id.textViewLogin).setOnClickListener(v -> {
-            startActivity(new Intent(this,MainActivity.class));
-        });
-        findViewById(R.id.buttonSignUp).setOnClickListener(v -> {
-            registerUser();
-        });
+        findViewById(R.id.textViewLogin).setOnClickListener(this);
+        findViewById(R.id.buttonSignUp).setOnClickListener(this);
 
         editTextEmail = (EditText) findViewById(R.id.signUpEmail);
         editTextPassword = (EditText) findViewById(R.id.signUpPassword);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        instructions = (TextView) findViewById(R.id.instruction);
+
         mAuth = FirebaseAuth.getInstance();
     }
 
-    ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
 
     private void registerUser(){
         String email = editTextEmail.getText().toString().trim();
@@ -69,8 +71,7 @@ public class Sign_Up_Activity extends AppCompatActivity {
         }
 
         if(password.length()<6){
-            editTextPassword.setError("Password should be of atleast 6 characters.");
-            editTextPassword.requestFocus();
+            instructions.setVisibility(View.VISIBLE);
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
@@ -80,12 +81,32 @@ public class Sign_Up_Activity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "User Registered Successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "User Registration failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Remember your Password:"+password,Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(Sign_Up_Activity.this,HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                } else{
+                    if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                        Toast.makeText(getApplicationContext(),"Email ID already registered",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.textViewLogin:
+                startActivity(new Intent(this,MainActivity.class));
+                break;
+
+            case R.id.buttonSignUp:
+                registerUser();
+                break;
+        }
     }
 }

@@ -58,6 +58,14 @@
                 android:layout_height="wrap_content"
                 android:hint="eg. ex123le"
                 style="@style/EditText"/>
+            <TextView
+                android:id="@+id/instruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="* atleast six characters"
+                android:paddingLeft="10dp"
+                android:textColor="@color/red"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/buttonSignUp"
@@ -82,11 +90,4 @@
             android:visibility="gone"/>
 
     </RelativeLayout>
-
-    
-
-    
-
-
-
 </LinearLayout>

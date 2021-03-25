@@ -27,38 +27,61 @@
 
     </RelativeLayout>
 
-    <TextView
-        style="@style/HeaderText"
-        android:text="Email ID:"/>
-
-    <EditText
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="example@gmail.com"
-        style="@style/EditText"/>
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <TextView
-    style="@style/HeaderText"
-    android:text="Password:"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="eg. ex123le"
-        style="@style/EditText"/>
+            <TextView
+                style="@style/HeaderText"
+                android:text="Email ID:"/>
 
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="LOGIN"/>
+            <EditText
+                android:id="@+id/loginEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="example@gmail.com"
+                style="@style/EditText"/>
 
-    <TextView
-        android:id="@+id/textViewSignUp"
-        android:text="Don't have account? Sign Up"
-        style="@style/BelowButton"
-        android:gravity="center"/>
+            <TextView
+                style="@style/HeaderText"
+                android:text="Password:"/>
+
+            <EditText
+                android:id="@+id/loginPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="eg. ex123le"
+                style="@style/EditText"/>
+
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Login"/>
+
+            <TextView
+                android:id="@+id/textViewSignUp"
+                android:text="Don't have account? Sign Up"
+                style="@style/BelowButton"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="60dp"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
 
 
 
