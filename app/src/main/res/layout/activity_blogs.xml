@@ -17,7 +17,8 @@
             android:text="Requests"
             android:textColor="@color/white"
             style="@style/HomeScreenTexts"
-            android:background="@color/orange"/>
+            android:background="@color/orange"
+            android:layout_marginRight="2dp"/>
 
         <TextView
             android:id="@+id/players_textview"

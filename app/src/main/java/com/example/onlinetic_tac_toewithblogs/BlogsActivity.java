@@ -28,7 +28,7 @@ public class BlogsActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.players_textview).setOnClickListener(this);
         findViewById(R.id.blogs_textview).setOnClickListener(this);
 
-        blogList = new ArrayList<>();
+        blogList = new ArrayList<Blog>();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -38,7 +38,7 @@ public class BlogsActivity extends AppCompatActivity implements View.OnClickList
         sendButton.setOnClickListener(v -> {
             EditText blogEditText = (EditText) findViewById(R.id.blogEditText);
             String blog = blogEditText.getText().toString();
-            blogList.add(new Blog(blog));
+            blogList.add(new Blog(1,blog));
 
             adapter = new BlogAdapter(this,blogList);
             recyclerView.setAdapter(adapter);
