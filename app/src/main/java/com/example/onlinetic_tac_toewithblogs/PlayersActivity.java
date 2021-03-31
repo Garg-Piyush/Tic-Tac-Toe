@@ -30,7 +30,8 @@ public class PlayersActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.blogs_textview :
-                startActivity(new Intent(this, BlogsActivity.class));
+                Intent intent = new Intent(this, BlogsActivity.class);
+                startActivity(intent);
         }
     }
 }

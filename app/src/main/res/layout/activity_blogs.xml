@@ -40,26 +40,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttons"/>
 
-    <LinearLayout
+
+    <Button
+        android:id="@+id/blogButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:text="write a blog"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_alignParentBottom="true"/>
 
-        <EditText
-            android:id="@+id/blogEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:hint="Type Something" />
 
-        <Button
-            android:id="@+id/sendButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="send" />
-
-    </LinearLayout>
 
 </RelativeLayout>

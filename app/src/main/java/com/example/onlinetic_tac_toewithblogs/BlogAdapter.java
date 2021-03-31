@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.BlogViewHolder>{
+public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.BlogViewHolder> {
 
     private Context mContext;
     private List<Blog> blogList;
@@ -23,18 +23,19 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.BlogViewHolder
 
     @NonNull
     @Override
-    public BlogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BlogAdapter.BlogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.list_layout,null);
-        BlogViewHolder holder = new BlogViewHolder(view);
+        View view = inflater.inflate(R.layout.list_item_layout,null);
+        BlogAdapter.BlogViewHolder holder = new BlogAdapter.BlogViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BlogViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BlogAdapter.BlogViewHolder holder, int position) {
         Blog blog = blogList.get(position);
 
         holder.blogTextView.setText(blog.getBlog());
+        holder.blogTopicTextView.setText(blog.getBlogTopic());
     }
 
     @Override
@@ -44,12 +45,13 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.BlogViewHolder
 
     class BlogViewHolder extends RecyclerView.ViewHolder {
 
-        TextView blogTextView;
+        TextView blogTextView,blogTopicTextView;
 
         public BlogViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            blogTextView = itemView.findViewById(R.id.listLayoutTextView);
+            blogTextView = itemView.findViewById(R.id.blogTextView);
+            blogTopicTextView = itemView.findViewById((R.id.blogTopicTextView));
         }
     }
 }

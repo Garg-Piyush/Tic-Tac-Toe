@@ -16,8 +16,8 @@ import java.util.List;
 public class BlogsActivity extends AppCompatActivity implements View.OnClickListener {
 
     RecyclerView recyclerView;
-    BlogAdapter adapter;
-    List<Blog> blogList;
+    BlogTopicAdapter adapter;
+    List<BlogTopic> blogList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,23 +28,29 @@ public class BlogsActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.players_textview).setOnClickListener(this);
         findViewById(R.id.blogs_textview).setOnClickListener(this);
 
-        blogList = new ArrayList<Blog>();
+        blogList = new ArrayList<BlogTopic>();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        Button sendButton = (Button) findViewById(R.id.sendButton);
-        sendButton.setOnClickListener(v -> {
-            EditText blogEditText = (EditText) findViewById(R.id.blogEditText);
-            String blog = blogEditText.getText().toString();
-            blogList.add(new Blog(1,blog));
-
-            adapter = new BlogAdapter(this,blogList);
-            recyclerView.setAdapter(adapter);
-
+        Button blogButton = (Button) findViewById(R.id.blogButton);
+        blogButton.setOnClickListener(v -> {
+            startActivity(new Intent(this,BlogWritingActivity.class));
         });
 
+        Intent intent = getIntent();
+        if(intent.hasExtra("from")) {
+            String topic = intent.getStringExtra("topic");
+            addTopic(topic);
+            String blog = intent.getStringExtra("blog");
+        }
+    }
+
+    private void addTopic(String topic){
+        blogList.add(new BlogTopic(1,topic));
+        adapter = new BlogTopicAdapter(this, blogList);
+        recyclerView.setAdapter(adapter);
     }
 
 
