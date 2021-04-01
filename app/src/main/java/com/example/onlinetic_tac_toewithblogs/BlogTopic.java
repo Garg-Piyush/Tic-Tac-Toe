@@ -3,11 +3,12 @@ package com.example.onlinetic_tac_toewithblogs;
 public class BlogTopic {
 
     private int id;
-    private String topic;
+    private String topic,blog;
 
-    public BlogTopic(int id, String topic) {
+    public BlogTopic(int id, String topic,String blog) {
         this.id = id;
         this.topic = topic;
+        this.blog = blog;
     }
 
     public int getId() {
@@ -17,4 +18,6 @@ public class BlogTopic {
     public String getTopic() {
         return topic;
     }
+
+    public  String getBlog() { return blog;}
 }

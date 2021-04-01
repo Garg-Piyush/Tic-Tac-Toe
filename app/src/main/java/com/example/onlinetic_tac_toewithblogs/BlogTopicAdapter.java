@@ -15,10 +15,12 @@ public class BlogTopicAdapter extends RecyclerView.Adapter<BlogTopicAdapter.Blog
 
     private Context mContext;
     private List<BlogTopic> blogList;
+    private OnBlogTopicListener mOnBlogTopicListener;
 
-    public BlogTopicAdapter(Context mContext, List<BlogTopic> blogList) {
+    public BlogTopicAdapter(Context mContext, List<BlogTopic> blogList,OnBlogTopicListener onBlogTopicListener) {
         this.mContext = mContext;
         this.blogList = blogList;
+        this.mOnBlogTopicListener = onBlogTopicListener;
     }
 
     @NonNull
@@ -26,7 +28,7 @@ public class BlogTopicAdapter extends RecyclerView.Adapter<BlogTopicAdapter.Blog
     public BlogTopicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.list_layout,null);
-        BlogTopicViewHolder holder = new BlogTopicViewHolder(view);
+        BlogTopicViewHolder holder = new BlogTopicViewHolder(view,mOnBlogTopicListener);
         return holder;
     }
 
@@ -42,15 +44,27 @@ public class BlogTopicAdapter extends RecyclerView.Adapter<BlogTopicAdapter.Blog
         return blogList.size();
     }
 
-    class BlogTopicViewHolder extends RecyclerView.ViewHolder{
+    class BlogTopicViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView blogTextView;
+        OnBlogTopicListener onBlogTopicListener;
 
-        public BlogTopicViewHolder(@NonNull View itemView) {
+        public BlogTopicViewHolder(@NonNull View itemView, OnBlogTopicListener onBlogTopicListener) {
             super(itemView);
 
             blogTextView = itemView.findViewById(R.id.listLayoutTextView);
+            this.onBlogTopicListener = onBlogTopicListener;
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onBlogTopicListener.OnBlogTopicClick(getAdapterPosition());
         }
     }
 
+    public interface OnBlogTopicListener{
+        void OnBlogTopicClick(int position);
+    }
 }

@@ -13,7 +13,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlogsActivity extends AppCompatActivity implements View.OnClickListener {
+public class BlogsActivity extends AppCompatActivity implements View.OnClickListener, BlogTopicAdapter.OnBlogTopicListener {
 
     RecyclerView recyclerView;
     BlogTopicAdapter adapter;
@@ -42,14 +42,14 @@ public class BlogsActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = getIntent();
         if(intent.hasExtra("from")) {
             String topic = intent.getStringExtra("topic");
-            addTopic(topic);
             String blog = intent.getStringExtra("blog");
+            addTopic(topic,blog);
         }
     }
 
-    private void addTopic(String topic){
-        blogList.add(new BlogTopic(1,topic));
-        adapter = new BlogTopicAdapter(this, blogList);
+    private void addTopic(String topic,String blog){
+        blogList.add(new BlogTopic(1,topic,blog));
+        adapter = new BlogTopicAdapter(this, blogList,this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -68,5 +68,16 @@ public class BlogsActivity extends AppCompatActivity implements View.OnClickList
             case R.id.blogs_textview :
                 startActivity(new Intent(this, BlogsActivity.class));
         }
+    }
+
+    @Override
+    public void OnBlogTopicClick(int position) {
+        BlogTopic blogTopic = blogList.get(position);
+        String topic = blogTopic.getTopic();
+        String blog = blogTopic.getBlog();
+        Intent intent1 = new Intent(this,BlogWithTopicActivity.class);
+        intent1.putExtra("topic",topic);
+        intent1.putExtra("blog",blog);
+        startActivity(intent1);
     }
 }
