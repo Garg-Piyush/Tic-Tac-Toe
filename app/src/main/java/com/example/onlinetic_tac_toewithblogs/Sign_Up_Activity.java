@@ -82,7 +82,7 @@ public class Sign_Up_Activity extends AppCompatActivity implements View.OnClickL
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(),"Remember your Password:"+password,Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(Sign_Up_Activity.this,HomeActivity.class);
+                    Intent intent = new Intent(Sign_Up_Activity.this,PlayersActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 } else{

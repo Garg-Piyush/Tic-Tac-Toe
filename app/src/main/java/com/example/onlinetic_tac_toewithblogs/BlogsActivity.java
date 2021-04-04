@@ -1,5 +1,6 @@
 package com.example.onlinetic_tac_toewithblogs;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +26,7 @@ public class BlogsActivity extends AppCompatActivity implements View.OnClickList
     RecyclerView recyclerView;
     BlogTopicAdapter adapter;
     List<BlogTopic> blogList;
+    DatabaseReference myReff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +48,25 @@ public class BlogsActivity extends AppCompatActivity implements View.OnClickList
             startActivity(new Intent(this,BlogWritingActivity.class));
         });
 
-        Intent intent = getIntent();
-        if(intent.hasExtra("from")) {
-            String topic = intent.getStringExtra("topic");
-            String blog = intent.getStringExtra("blog");
-            addTopic(topic,blog);
-        }
+        myReff = FirebaseDatabase.getInstance().getReference().child("Blog");
+
+        myReff.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren() ){
+                    BlogData blogData = child.getValue(BlogData.class);
+                    String topic2 = blogData.getTopic();
+                    String blog2 = blogData.getBlog();
+                    addTopic(topic2,blog2);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        
     }
 
     private void addTopic(String topic,String blog){

@@ -15,7 +15,6 @@
         <activity android:name=".PlayersActivity" />
         <activity android:name=".BlogsActivity" />
         <activity android:name=".RequestsActivity" />
-        <activity android:name=".HomeActivity" />
         <activity
             android:name=".Sign_Up_Activity"
             android:label="@string/app_name" />
