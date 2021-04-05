@@ -18,6 +18,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -81,8 +83,12 @@ public class Sign_Up_Activity extends AppCompatActivity implements View.OnClickL
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
+                    DatabaseReference reff1 = FirebaseDatabase.getInstance().getReference();
+                    reff1 = reff1.child("Registered Users");
+                    reff1.push().setValue(email);
+
                     Toast.makeText(getApplicationContext(),"Remember your Password:"+password,Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(Sign_Up_Activity.this,PlayersActivity.class);
+                    Intent intent = new Intent(Sign_Up_Activity.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 } else{
@@ -94,7 +100,6 @@ public class Sign_Up_Activity extends AppCompatActivity implements View.OnClickL
                 }
             }
         });
-
     }
 
     @Override
