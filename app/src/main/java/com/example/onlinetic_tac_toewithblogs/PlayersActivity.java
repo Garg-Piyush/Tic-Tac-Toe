@@ -2,12 +2,15 @@ package com.example.onlinetic_tac_toewithblogs;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.PriorityGoalRow;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,10 +24,12 @@ import java.util.List;
 
 public class PlayersActivity extends AppCompatActivity implements View.OnClickListener, PlayerAdapter.OnPlayerListener {
 
-    private List<String> playerList;
+    List<String> playerList;
     RecyclerView recyclerView;
     PlayerAdapter adapter;
-    DatabaseReference myReff;
+    DatabaseReference myReff, myReff1, myReff2;
+    ProgressBar progressBar;
+    String currentUserEmail, currentUserUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,24 +40,35 @@ public class PlayersActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.players_textview).setOnClickListener(this);
         findViewById(R.id.blogs_textview).setOnClickListener(this);
 
+        currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         playerList = new ArrayList<String>();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        PlayerAdapter.OnPlayerListener onPlayerListener = this;
+
+        progressBar = (ProgressBar) findViewById(R.id.playersProgressBar);
+
         myReff = FirebaseDatabase.getInstance().getReference().child("Registered Users");
+        myReff1 = FirebaseDatabase.getInstance().getReference().child("UID and mail").child(currentUserUID);
+        myReff1.setValue(currentUserEmail);
 
         myReff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                 for(DataSnapshot child : snapshot.getChildren()){
                     String string = (String) child.getValue();
-                    if(string != email){
+                    if(!string.equals(currentUserEmail)){
                         playerList.add(string);
                     }
                 }
+                adapter = new PlayerAdapter(PlayersActivity.this,playerList,onPlayerListener);
+                recyclerView.setAdapter(adapter);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -60,9 +76,6 @@ public class PlayersActivity extends AppCompatActivity implements View.OnClickLi
 
             }
         });
-
-        adapter = new PlayerAdapter(this,playerList,this);
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -83,6 +96,11 @@ public class PlayersActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void OnPlayerClick(int position) {
-
+        myReff2 = FirebaseDatabase.getInstance().getReference();
+        String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String requestReceiver = playerList.get(position);
+        myReff2 = myReff2.child("Requests").child(currentUserUID);
+        myReff2.setValue(requestReceiver);
+        Toast.makeText(this,"Request sent to "+requestReceiver,Toast.LENGTH_SHORT).show();
     }
 }
