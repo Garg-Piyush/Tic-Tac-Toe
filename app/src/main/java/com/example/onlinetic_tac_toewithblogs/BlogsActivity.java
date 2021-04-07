@@ -66,7 +66,40 @@ public class BlogsActivity extends AppCompatActivity implements View.OnClickList
 
             }
         });
-        
+
+        DatabaseReference myReff = FirebaseDatabase.getInstance().getReference().child("Play Game");
+        myReff.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child : snapshot.getChildren()){
+                    int k=0;
+                    for (DataSnapshot child1 : child.getChildren()){
+                        if(child1.getValue().equals(true)) k++;
+                    }
+                    if (k==2){
+                        String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        String[] array = new String[2];
+                        int i=0;
+                        for (DataSnapshot child2 : child.getChildren()){
+                            array[i]=child2.getKey();
+                            i++;
+                        }
+                        if (currentUserUid.equals(array[0]) || currentUserUid.equals(array[1])){
+                            child.getRef().removeValue();
+                            Intent intent = new Intent(BlogsActivity.this,GameScreenActivity.class);
+                            intent.putExtra("1",array[0]);
+                            intent.putExtra("2",array[1]);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void addTopic(String topic,String blog){

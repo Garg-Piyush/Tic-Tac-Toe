@@ -33,8 +33,9 @@ public class RequestsActivity extends AppCompatActivity implements View.OnClickL
     RequestAdapter adapter;
     RecyclerView recyclerView;
     ProgressBar progressBar;
-    ValueEventListener vel,vel1;
+    ValueEventListener vel,vel1, vel2;
     RequestAdapter.OnRequestListener onRequestListener;
+    String requesterOfAcceptedRequestUId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,40 @@ public class RequestsActivity extends AppCompatActivity implements View.OnClickL
 
             }
         });
+
+        DatabaseReference myReff = FirebaseDatabase.getInstance().getReference().child("Play Game");
+        myReff.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child : snapshot.getChildren()){
+                    int k=0;
+                    for (DataSnapshot child1 : child.getChildren()){
+                        if(child1.getValue().equals(true)) k++;
+                    }
+                    if (k==2){
+                        String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        String[] array = new String[2];
+                        int i=0;
+                        for (DataSnapshot child2 : child.getChildren()){
+                            array[i]=child2.getKey();
+                            i++;
+                        }
+                        if (currentUserUid.equals(array[0]) || currentUserUid.equals(array[1])){
+                            child.getRef().removeValue();
+                            Intent intent = new Intent(RequestsActivity.this,GameScreenActivity.class);
+                            intent.putExtra("1",array[0]);
+                            intent.putExtra("2",array[1]);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -122,8 +157,9 @@ public class RequestsActivity extends AppCompatActivity implements View.OnClickL
         myReff.removeValue();
         String currentUserMailID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String currentUserUID2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String requesterOfAcceptedRequestMail = requestList.get(position);
 
-        if(currentUserMailID.equals(requestToUID)){
+        /* if(currentUserMailID.equals(requestToUID)){
                 Intent intent = new Intent(RequestsActivity.this, GameScreenActivity.class);
                 intent.putExtra("Request from", requestByMail);
                 intent.putExtra("Request to", requestToMail);
@@ -136,7 +172,45 @@ public class RequestsActivity extends AppCompatActivity implements View.OnClickL
             intent.putExtra("Request from", requestByMail);
             intent.putExtra("Request to", requestToMail);
             startActivity(intent);
-        }
+        }*/
+
+        DatabaseReference myReff3 = FirebaseDatabase.getInstance().getReference().child("UID and mail");
+        vel2 = myReff3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()){
+                    String string = (String) child.getValue();
+                    if(string.equals(requesterOfAcceptedRequestMail)){
+                        requesterOfAcceptedRequestUId = child.getKey();
+                        myReff3.removeEventListener(vel2);
+
+                        DatabaseReference myReff2 = FirebaseDatabase.getInstance().getReference().child("Play Game");
+                        vel1 = myReff2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot child : snapshot.getChildren()){
+                                    if(child.hasChild(requesterOfAcceptedRequestUId) && child.hasChild(currentUserUID2)){
+                                        DatabaseReference myReff4 = child.getRef();
+                                        myReff4.child(currentUserUID2).setValue(true);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override

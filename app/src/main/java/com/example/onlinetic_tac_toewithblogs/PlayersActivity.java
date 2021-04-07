@@ -77,6 +77,40 @@ public class PlayersActivity extends AppCompatActivity implements View.OnClickLi
 
             }
         });
+
+        DatabaseReference myReff = FirebaseDatabase.getInstance().getReference().child("Play Game");
+        myReff.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child : snapshot.getChildren()){
+                    int k=0;
+                    for (DataSnapshot child1 : child.getChildren()){
+                        if(child1.getValue().equals(true)) k++;
+                    }
+                    if (k==2){
+                        String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        String[] array = new String[2];
+                        int i=0;
+                        for (DataSnapshot child2 : child.getChildren()){
+                            array[i]=child2.getKey();
+                            i++;
+                        }
+                        if (currentUserUid.equals(array[0]) || currentUserUid.equals(array[1])){
+                            child.getRef().removeValue();
+                            Intent intent = new Intent(PlayersActivity.this,GameScreenActivity.class);
+                            intent.putExtra("1",array[0]);
+                            intent.putExtra("2",array[1]);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -111,6 +145,14 @@ public class PlayersActivity extends AppCompatActivity implements View.OnClickLi
                         myReff2 = myReff2.child("Requests").child(currentUserUID);
                         myReff2.setValue(requestReceiverUID);
                         myReff3.removeEventListener(vel);
+
+                        DatabaseReference myReff4 = FirebaseDatabase.getInstance().getReference().child("Play Game");
+                        myReff4 = myReff4.push();
+                        DatabaseReference myReff5 = myReff4;
+                        myReff4 = myReff4.child(currentUserUID);
+                        myReff4.setValue(true);
+                        myReff5 = myReff5.child(requestReceiverUID);
+                        myReff5.setValue(false);
                     }
                 }
             }
@@ -120,6 +162,8 @@ public class PlayersActivity extends AppCompatActivity implements View.OnClickLi
 
             }
         });
+
+
         Toast.makeText(this,"Request sent to "+requestReceiverMail,Toast.LENGTH_SHORT).show();
     }
 }
