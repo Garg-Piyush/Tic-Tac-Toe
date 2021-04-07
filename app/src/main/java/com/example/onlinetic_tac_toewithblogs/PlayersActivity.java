@@ -29,7 +29,8 @@ public class PlayersActivity extends AppCompatActivity implements View.OnClickLi
     PlayerAdapter adapter;
     DatabaseReference myReff, myReff1, myReff2;
     ProgressBar progressBar;
-    String currentUserEmail, currentUserUID;
+    String currentUserEmail, currentUserUID, requestReceiverUID;
+    ValueEventListener vel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,9 +99,27 @@ public class PlayersActivity extends AppCompatActivity implements View.OnClickLi
     public void OnPlayerClick(int position) {
         myReff2 = FirebaseDatabase.getInstance().getReference();
         String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String requestReceiver = playerList.get(position);
-        myReff2 = myReff2.child("Requests").child(currentUserUID);
-        myReff2.setValue(requestReceiver);
-        Toast.makeText(this,"Request sent to "+requestReceiver,Toast.LENGTH_SHORT).show();
+        String requestReceiverMail = playerList.get(position);
+        DatabaseReference myReff3 = FirebaseDatabase.getInstance().getReference().child("UID and mail");
+          vel  = myReff3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()){
+                    String string = (String) child.getValue();
+                    if (requestReceiverMail.equals(string)){
+                        requestReceiverUID = child.getKey();
+                        myReff2 = myReff2.child("Requests").child(currentUserUID);
+                        myReff2.setValue(requestReceiverUID);
+                        myReff3.removeEventListener(vel);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        Toast.makeText(this,"Request sent to "+requestReceiverMail,Toast.LENGTH_SHORT).show();
     }
 }

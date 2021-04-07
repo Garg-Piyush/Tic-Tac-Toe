@@ -45,8 +45,8 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
 
         player1Txt.setText(player1);
         player2Txt.setText(player2);
-        plr1ScrTxt.setText(plr1scr);
-        plr2ScrTxt.setText(plr2scr);
+        plr1ScrTxt.setText(String.valueOf(plr1scr));
+        plr2ScrTxt.setText(String.valueOf(plr2scr));
 
         for (int i=0;i<3;i++){
             for (int j=0;j<3;j++){
@@ -107,6 +107,11 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void restart(){
+        for (int i=0;i<3;i++){
+            for (int j=0;j<3;j++){
+                a[i][j] = 0;
+            }
+        }
         txt1.setBackgroundResource(R.color.brown);
         txt2.setBackgroundResource(R.color.brown);
         txt3.setBackgroundResource(R.color.brown);
@@ -130,7 +135,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==1){
                         Toast.makeText(this,player1+" Won",Toast.LENGTH_SHORT).show();
                         plr1scr++;
-                        plr1ScrTxt.setText(plr1scr);
+                        plr1ScrTxt.setText(String.valueOf(plr1scr));
                         restart();
                     }
                 }else{
@@ -140,7 +145,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==2){
                         Toast.makeText(this,player2+" Won",Toast.LENGTH_SHORT).show();
                         plr2scr++;
-                        plr2ScrTxt.setText(plr2scr);
+                        plr2ScrTxt.setText(String.valueOf(plr2scr));
                         restart();
                     }
                 }
@@ -154,7 +159,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==1){
                         Toast.makeText(this,player1+" Won",Toast.LENGTH_SHORT).show();
                         plr1scr++;
-                        plr1ScrTxt.setText(plr1scr);
+                        plr1ScrTxt.setText(String.valueOf(plr1scr));
                         restart();
                     }
                 }else{
@@ -164,7 +169,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i == 2){
                         Toast.makeText(this,player2+" Won",Toast.LENGTH_SHORT).show();
                         plr2scr++;
-                        plr2ScrTxt.setText(plr2scr);
+                        plr2ScrTxt.setText(String.valueOf(plr2scr));
                         restart();
                     }
                 }
@@ -178,7 +183,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==1){
                         Toast.makeText(this,player1+" Won",Toast.LENGTH_SHORT).show();
                         plr1scr++;
-                        plr1ScrTxt.setText(plr1scr);
+                        plr1ScrTxt.setText(String.valueOf(plr1scr));
                         restart();
                     }
                 }else{
@@ -188,7 +193,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==2){
                         Toast.makeText(this,player2+" Won",Toast.LENGTH_SHORT).show();
                         plr2scr++;
-                        plr2ScrTxt.setText(plr2scr);
+                        plr2ScrTxt.setText(String.valueOf(plr2scr));
                         restart();
                     }
                 }
@@ -202,7 +207,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==1){
                         Toast.makeText(this,player1+" Won",Toast.LENGTH_SHORT).show();
                         plr1scr++;
-                        plr1ScrTxt.setText(plr1scr);
+                        plr1ScrTxt.setText(String.valueOf(plr1scr));
                         restart();
                     }
                 }else{
@@ -212,7 +217,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==2){
                         Toast.makeText(this,player2+" Won",Toast.LENGTH_SHORT).show();
                         plr2scr++;
-                        plr2ScrTxt.setText(plr2scr);
+                        plr2ScrTxt.setText(String.valueOf(plr2scr));
                         restart();
                     }
                 }
@@ -226,7 +231,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==1){
                         Toast.makeText(this,player1+" Won",Toast.LENGTH_SHORT).show();
                         plr1scr++;
-                        plr1ScrTxt.setText(plr1scr);
+                        plr1ScrTxt.setText(String.valueOf(plr1scr));
                         restart();
                     }
                 }else{
@@ -236,7 +241,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==2){
                         Toast.makeText(this,player2+" Won",Toast.LENGTH_SHORT).show();
                         plr2scr++;
-                        plr2ScrTxt.setText(plr2scr);
+                        plr2ScrTxt.setText(String.valueOf(plr2scr));
                         restart();
                     }
                 }
@@ -250,7 +255,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==1){
                         Toast.makeText(this,player1+" Won",Toast.LENGTH_SHORT).show();
                         plr1scr++;
-                        plr1ScrTxt.setText(plr1scr);
+                        plr1ScrTxt.setText(String.valueOf(plr1scr));
                         restart();
                     }
                 }else{
@@ -260,7 +265,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==2){
                         Toast.makeText(this,player2+" Won",Toast.LENGTH_SHORT).show();
                         plr2scr++;
-                        plr2ScrTxt.setText(plr2scr);
+                        plr2ScrTxt.setText(String.valueOf(plr2scr));
                         restart();
                     }
                 }
@@ -274,7 +279,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==1){
                         Toast.makeText(this,player1+" Won",Toast.LENGTH_SHORT).show();
                         plr1scr++;
-                        plr1ScrTxt.setText(plr1scr);
+                        plr1ScrTxt.setText(String.valueOf(plr1scr));
                         restart();
                     }
                 }else{
@@ -284,7 +289,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==2){
                         Toast.makeText(this,player2+" Won",Toast.LENGTH_SHORT).show();
                         plr2scr++;
-                        plr2ScrTxt.setText(plr2scr);
+                        plr2ScrTxt.setText(String.valueOf(plr2scr));
                         restart();
                     }
                 }
@@ -298,7 +303,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==1){
                         Toast.makeText(this,player1+" Won",Toast.LENGTH_SHORT).show();
                         plr1scr++;
-                        plr1ScrTxt.setText(plr1scr);
+                        plr1ScrTxt.setText(String.valueOf(plr1scr));
                         restart();
                     }
                 }else{
@@ -308,7 +313,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==2){
                         Toast.makeText(this,player2+" Won",Toast.LENGTH_SHORT).show();
                         plr2scr++;
-                        plr2ScrTxt.setText(plr2scr);
+                        plr2ScrTxt.setText(String.valueOf(plr2scr));
                         restart();
                     }
                 }
@@ -322,7 +327,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==1){
                         Toast.makeText(this,player1+" Won",Toast.LENGTH_SHORT).show();
                         plr1scr++;
-                        plr1ScrTxt.setText(plr1scr);
+                        plr1ScrTxt.setText(String.valueOf(plr1scr));
                         restart();
                     }
                 }else{
@@ -332,7 +337,7 @@ public class GameScreenActivity extends AppCompatActivity implements View.OnClic
                     if (i==2){
                         Toast.makeText(this,player2+" Won",Toast.LENGTH_SHORT).show();
                         plr2scr++;
-                        plr2ScrTxt.setText(plr2scr);
+                        plr2ScrTxt.setText(String.valueOf(plr2scr));
                         restart();
                     }
                 }

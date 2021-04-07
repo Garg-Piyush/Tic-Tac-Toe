@@ -26,7 +26,7 @@ import java.util.List;
 
 public class RequestsActivity extends AppCompatActivity implements View.OnClickListener, RequestAdapter.OnRequestListener{
 
-    String currentUserMail, requestByMail, requestToMail;
+    String currentUserUID, requestByMail, requestToMail;
     DatabaseReference myReff, myReff1;
     List<String> requestList;
     String requestByUID, requestToUID;
@@ -55,7 +55,7 @@ public class RequestsActivity extends AppCompatActivity implements View.OnClickL
 
         onRequestListener = this;
 
-        currentUserMail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         myReff1 = FirebaseDatabase.getInstance().getReference().child("UID and mail");
         myReff = FirebaseDatabase.getInstance().getReference().child("Requests");
@@ -64,9 +64,10 @@ public class RequestsActivity extends AppCompatActivity implements View.OnClickL
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot child : snapshot.getChildren()){
                     String string = (String) child.getValue();
-                    if (string.equals(currentUserMail)){
+                    if (string.equals(currentUserUID)){
                         requestByUID = child.getKey();
-                        requestToMail = string;
+                        requestToUID = string;
+                        requestToMail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                         vel = myReff1.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -87,9 +88,9 @@ public class RequestsActivity extends AppCompatActivity implements View.OnClickL
 
                             }
                         });
-                        progressBar.setVisibility(View.GONE);
                     }
                 }
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -119,38 +120,22 @@ public class RequestsActivity extends AppCompatActivity implements View.OnClickL
     public void OnAcceptClick(int position) {
         myReff = myReff.child(requestByUID);
         myReff.removeValue();
-        String currentUserMailID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String currentUserMailID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String currentUserUID2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference myReff4 = FirebaseDatabase.getInstance().getReference().child("UID and mail");
-        vel1 = myReff4.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot child : snapshot.getChildren()){
-                    String string = (String) child.getValue();
-                    if(string.equals(requestToMail)){
-                        requestToUID = child.getKey();
-                        if (currentUserUID2.equals(requestToUID)){
-                            DatabaseReference myReff3 = FirebaseDatabase.getInstance().getReference().child("Requests");
-                            myReff3 = myReff3.child(currentUserUID2);
-                            myReff3.setValue(requestByMail);
-                        }
-                        myReff4.removeEventListener(vel1);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        if(currentUserMailID.equals(requestToMail) || currentUserMailID.equals(requestByMail)){
+        if(currentUserMailID.equals(requestToUID)){
                 Intent intent = new Intent(RequestsActivity.this, GameScreenActivity.class);
                 intent.putExtra("Request from", requestByMail);
                 intent.putExtra("Request to", requestToMail);
                 startActivity(intent);
+        }else{
+            String currentUserID3 = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
+        if (currentUserMailID.equals(requestByUID)){
+            Intent intent = new Intent(RequestsActivity.this, GameScreenActivity.class);
+            intent.putExtra("Request from", requestByMail);
+            intent.putExtra("Request to", requestToMail);
+            startActivity(intent);
         }
     }
 
